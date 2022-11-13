@@ -1,25 +1,14 @@
+import { DataFetchParams, DataFetchResponse } from "../types/data-fetch.types";
 import checkIfLinkedFromPage from "../utilities/helper-functions/checkIfLinkedFromPage";
 import { fetchGraphQL } from "./api";
 
-type Params = {
-  limit: number;
-  linkedFromPage: string;
-  collectionName: string;
-};
-
-type Response = {
-  message: string;
-  success: boolean;
-  data: Array<any>;
-};
-
 export async function getHeroDataForPage({
-  limit,
-  linkedFromPage,
+  collectionLimit = 1,
+  linkedFromPage = "/",
   collectionName = "pageTypeCollection",
-}: Params): Promise<Response> {
+}: DataFetchParams): Promise<DataFetchResponse> {
   const entries = await fetchGraphQL(`query {
-        heroTypeCollection(limit: ${limit}) {
+        heroTypeCollection(limit: ${collectionLimit}) {
             items {
             sys {
                 id
@@ -64,6 +53,6 @@ export async function getHeroDataForPage({
   return {
     message: "success",
     success: true,
-    data: isLinked,
+    response: isLinked,
   };
 }

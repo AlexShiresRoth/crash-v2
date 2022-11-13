@@ -3,48 +3,52 @@ import HeroSection from "../components/hero/hero-section";
 import Nav from "../components/navigation/nav";
 import SideBar from "../components/navigation/sidebar";
 import PageContainer from "../components/page/page-container";
+import TourSeciton from "../components/tour/tour-section";
 import { getHeroDataForPage } from "../lib/hero-data";
 import { getPageData } from "../lib/page-data";
+import { getTourSectionData } from "../lib/tour-data";
+import { DataFetchResponse } from "../types/data-fetch.types";
 
-type FetchResponse = {
-  message: string;
-  success: boolean;
-  response: any;
+type FetchParams = {
+  args: {
+    linkedFromPage?: string;
+    collectionName?: string;
+    collectionLimit?: number;
+    slug?: string;
+  };
+  callback: (data: any) => Promise<DataFetchResponse>;
 };
 
-async function fetchPageData(slug: string): Promise<FetchResponse> {
-  const response = await getPageData(slug);
+async function getData({
+  args,
+  callback,
+}: FetchParams): Promise<{ data: any }> {
+  const response = await callback(args);
 
-  return {
-    message: "success",
-    success: true,
-    response,
-  };
-}
-
-async function getHeroData(
-  limit: number,
-  slug: string
-): Promise<FetchResponse> {
-  const heroData = await getHeroDataForPage({
-    limit,
-    linkedFromPage: slug,
-    collectionName: "pageTypeCollection",
-  });
-
-  return {
-    message: "success",
-    success: true,
-    response: heroData,
-  };
+  return { data: response };
 }
 
 const page = async () => {
-  const pageData = await fetchPageData("/");
+  const collectionName = "pageTypeCollection";
 
-  const heroData = await getHeroData(10, "/");
+  const slug = "/";
 
-  console.log("heroData", heroData);
+  const { data: pageData } = await getData({
+    args: { slug, collectionLimit: 10 },
+    callback: getPageData,
+  });
+
+  const { data: heroData } = await getData({
+    args: { collectionName, linkedFromPage: slug, collectionLimit: 10 },
+    callback: getHeroDataForPage,
+  });
+
+  const tourData = await getTourSectionData({
+    collectionLimit: 5,
+    linkedFromPage: slug,
+    collectionName,
+  });
+
   return (
     <PageContainer>
       <div className="flex flex-col flex-1 grow items-center">
@@ -54,13 +58,17 @@ const page = async () => {
             logo={pageData?.response?.logo}
           />
         )}
-        <div className="w-3/4 text-white font-bold text-7xl min-h-[4000px]">
-          {heroData?.success && (
-            <HeroSection heroSection={heroData?.response?.data?.[0]} />
-          )}
-        </div>
+        {heroData?.success && (
+          <HeroSection heroSection={heroData?.response?.[0]} />
+        )}
+
+        {tourData?.success && <TourSeciton data={tourData?.response?.[0]} />}
       </div>
-      <SideBar socialIcons={pageData?.response?.socialLinksCollection?.items} />
+      {pageData?.success && (
+        <SideBar
+          socialIcons={pageData?.response?.socialLinksCollection?.items}
+        />
+      )}
     </PageContainer>
   );
 };
