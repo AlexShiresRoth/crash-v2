@@ -11,6 +11,9 @@ const fetcher = (args: any) =>
     method: "POST",
     url: args?.url,
     data: args,
+    headers: {
+      "Content-Type": "application/json",
+    },
   }).then((res) => res.data);
 
 const TourDates = ({ url: api }: Props) => {

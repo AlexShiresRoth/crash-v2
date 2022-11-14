@@ -9,7 +9,7 @@ type Response = {
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-): Promise<Response> {
+): Promise<void> {
   try {
     const request = req.body;
 
@@ -21,19 +21,15 @@ export default async function handler(
       },
     });
 
-    console.log("api req", apiReq?.body);
+    const data = await apiReq.json();
 
-    return {
-      message: "Fetched data",
+    return res.status(200).json({
+      message: "success",
       success: true,
-      data: apiReq?.body,
-    };
+      data,
+    });
   } catch (error) {
     console.error("ERROR FETCHING TOUR DATA", error);
-    return {
-      message: "error",
-      success: false,
-      data: error,
-    };
+    return res.status(500).json({ message: error, success: false, data: null });
   }
 }
