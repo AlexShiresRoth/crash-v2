@@ -8,34 +8,39 @@ type Props = {
 
 const TourSection = ({ data }: Props) => {
   return (
-    <div className="w-3/4 flex flex-col items-start">
+    <div className="w-3/4 flex flex-col items-start ">
       <div className="flex justify-between items-center w-full">
-        <div className="bg-gradient-to-r from-orange-700 to-red-800 pb-2">
-          <h2 className="uppercase text-white font-semibold text-4xl bg-black p-2">
-            {data?.title}
-          </h2>
-        </div>
-        <div className="flex gap-4 items-center">
+        <h2 className="uppercase text-white font-semibold text-4xl bg-black border-b-2 border-orange-500 pb-2">
+          {data?.title}
+        </h2>
+        <div className="flex gap-4 items-center text-orange-500">
           <a
             href={data?.requestButtonLink}
-            className="text-white text-sm border-2 border-white rounded py-2 px-4"
             target={"_blank"}
             rel="noreferrer"
+            className="border-orange-500 border-2 text-sm rounded p-2 hover:bg-orange-500 hover:text-white transition-all"
           >
             {data?.requestButtonText}
           </a>
 
           <a
             href={data?.followButtonLink}
-            className="text-white text-sm border-2 border-white rounded py-2 px-4"
             target={"_blank"}
             rel="noreferrer"
+            className="border-orange-500 border-2 text-sm rounded p-2 hover:bg-orange-500 hover:text-white transition-all"
           >
             {data?.followButtontext}
           </a>
         </div>
       </div>
-      <div>{data?.publicApiKey && <TourDates url={data?.publicApiKey} />}</div>
+      <div className="w-full">
+        {data?.publicApiKey && (
+          <TourDates
+            url={data?.publicApiKey}
+            requestToPlayUrl={data?.requestButtonLink}
+          />
+        )}
+      </div>
     </div>
   );
 };
