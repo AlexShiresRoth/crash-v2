@@ -1,5 +1,6 @@
 import React from "react";
 import { TourSectionDataType } from "../../types/tour-components/tour-section-data";
+import H2 from "../headings/h2";
 import TourDates from "./tour-dates";
 
 type Props = {
@@ -10,9 +11,7 @@ const TourSection = ({ data }: Props) => {
   return (
     <div className="w-3/4 flex flex-col items-start ">
       <div className="flex justify-between items-center w-full">
-        <h2 className="uppercase text-white font-semibold text-4xl bg-black border-b-2 border-orange-500 pb-2">
-          {data?.title}
-        </h2>
+        <H2 text={data?.title} />
         <div className="flex gap-4 items-center text-orange-500">
           <a
             href={data?.requestButtonLink}

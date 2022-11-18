@@ -1,5 +1,6 @@
 import React from "react";
 import { HeroData } from "../../types/hero-data-type";
+import H1 from "../headings/h1";
 import HeroImage from "../image/hero-image";
 
 type Props = {
@@ -10,9 +11,7 @@ const HeroSection = ({ heroSection }: Props) => {
   return (
     <div className="mb-10 w-3/4">
       <div className="flex justify-between items-center my-2">
-        <h1 className="uppercase text-white font-semibold text-7xl">
-          {heroSection?.heading}
-        </h1>
+        <H1 text={heroSection?.heading}></H1>
 
         <a href={heroSection?.ctaUrl}>
           <button className="text-sm border-2 border-orange-500 text-orange-500 rounded p-2 hover:bg-orange-500 hover:text-white transition-all">

@@ -1,10 +1,12 @@
 import React from "react";
 import HeroSection from "../components/hero/hero-section";
+import MusicPlatformSection from "../components/music-platforms/music-platform-section";
 import Nav from "../components/navigation/nav";
 import SideBar from "../components/navigation/sidebar";
 import PageContainer from "../components/page/page-container";
 import TourSeciton from "../components/tour/tour-section";
 import { getHeroDataForPage } from "../lib/hero-data";
+import { getMusicSectionData } from "../lib/music-section-data";
 import { getPageData } from "../lib/page-data";
 import { getTourSectionData } from "../lib/tour-data";
 import { DataFetchResponse } from "../types/data-fetch.types";
@@ -49,6 +51,12 @@ const page = async () => {
     collectionName,
   });
 
+  const musicSectionData = await getMusicSectionData({
+    collectionLimit: 5,
+    linkedFromPage: slug,
+    collectionName,
+  });
+
   return (
     <PageContainer>
       <div className="flex flex-col flex-1 grow items-center">
@@ -63,6 +71,9 @@ const page = async () => {
         )}
 
         {tourData?.success && <TourSeciton data={tourData?.response?.[0]} />}
+        {musicSectionData?.success && (
+          <MusicPlatformSection data={musicSectionData?.response} />
+        )}
       </div>
       {pageData?.success && (
         <SideBar
