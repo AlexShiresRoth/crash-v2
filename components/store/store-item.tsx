@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { StoreItemType } from "../../types/shopify-store-types";
+import ImageSlider from "../image-slider/image-slider";
 import ItemModal from "./item-modal";
 
 type Props = {
@@ -10,9 +11,17 @@ type Props = {
   title: StoreItemType["title"];
   price: StoreItemType["price"];
   variants: StoreItemType["variants"];
+  description: StoreItemType["description"];
 };
 
-const StoreItem = ({ itemId, title, images, price, variants }: Props) => {
+const StoreItem = ({
+  itemId,
+  title,
+  images,
+  price,
+  variants,
+  description,
+}: Props) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -26,7 +35,6 @@ const StoreItem = ({ itemId, title, images, price, variants }: Props) => {
           price={{
             amount: price?.amount,
             currencyCode: price?.currencyCode,
-            type: price?.type,
           }}
           variants={variants?.map((variant) => ({
             id: variant?.id,
@@ -36,6 +44,7 @@ const StoreItem = ({ itemId, title, images, price, variants }: Props) => {
             available: variant?.available,
             sku: variant?.sku,
           }))}
+          description={description}
         />
       )}
       <div className="flex flex-col w-1/4 border-[1px] border-slate-500/30 bg-slate-500/10 rounded p-8 grow gap-6">
@@ -44,24 +53,16 @@ const StoreItem = ({ itemId, title, images, price, variants }: Props) => {
             {title}
           </p>
         </div>
-        <div className="relative w-full h-[250px] grow">
-          {images?.reverse()?.map((image) => (
-            <Image
-              key={image?.src}
-              src={image?.src}
-              fill={true}
-              alt={title}
-              className="object-cover rounded"
-            />
-          ))}
+        <div className="relative w-full grow">
+          <ImageSlider
+            images={images
+              ?.map((img) => ({ src: img?.src, altText: title }))
+              .reverse()}
+            sliderWidth={250}
+            sliderHeight={250}
+          />
         </div>
         <div className="flex justify-between flex-wrap-reverse items-center">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-slate-500/50 w-1/2 rounded text-slate-50 px-4 py-2 hover:bg-slate-500 transition-all"
-          >
-            View
-          </button>
           <div>
             <p className="text-slate-50 p-2 text-lg font-semibold">
               {price?.currencyCode === "USD" ? "$" : ""}
@@ -69,6 +70,12 @@ const StoreItem = ({ itemId, title, images, price, variants }: Props) => {
             </p>
             <div className="h-3 bg-gradient-to-r from-red-500 to-orange-500 -mt-5" />
           </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-slate-500/50 w-1/4 rounded text-slate-50 px-4 py-2 hover:bg-slate-500 transition-all"
+          >
+            View
+          </button>
         </div>
       </div>
     </>

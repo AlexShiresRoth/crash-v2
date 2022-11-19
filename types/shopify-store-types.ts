@@ -5,13 +5,16 @@ export type StoreItemType = {
   price: {
     amount: number | string;
     currencyCode: string;
-    type: string;
+    type?: string;
   };
   images: Array<{ src: string }>;
   variants: Array<{
     id: string;
     title: string;
-    price: string;
+    price: {
+      amount: number | string;
+      currencyCode: string;
+    };
     available: string;
     sku: string | number;
     image: {

@@ -23,6 +23,7 @@ const StoreSection = ({ items }: Props) => {
         </Link>
       </div>
       <StoreItems>
+        {/* need to break apart item so a function doesn't pass from server to client component */}
         {items?.map((item) => (
           <StoreItem
             key={item?.id}
@@ -32,16 +33,21 @@ const StoreSection = ({ items }: Props) => {
             price={{
               amount: item?.price?.amount,
               currencyCode: item?.price?.currencyCode,
-              type: item?.price?.type,
             }}
             variants={item?.variants?.map((variant) => ({
               id: variant?.id,
               title: variant?.title,
-              price: variant?.price,
-              image: variant?.image,
+              price: {
+                amount: variant?.price?.amount,
+                currencyCode: variant?.price?.currencyCode,
+              },
+              image: {
+                src: variant?.image?.src,
+              },
               available: variant?.available,
               sku: variant?.sku,
             }))}
+            description={item?.description}
           />
         ))}
       </StoreItems>
