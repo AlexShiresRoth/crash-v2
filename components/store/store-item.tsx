@@ -45,7 +45,7 @@ const StoreItem = ({ itemId, title, images, price, variants }: Props) => {
           </p>
         </div>
         <div className="relative w-full h-[250px] grow">
-          {images?.map((image) => (
+          {images?.reverse()?.map((image) => (
             <Image
               key={image?.src}
               src={image?.src}
