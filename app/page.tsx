@@ -4,10 +4,12 @@ import MusicPlatformSection from "../components/music-platforms/music-platform-s
 import Nav from "../components/navigation/nav";
 import SideBar from "../components/navigation/sidebar";
 import PageContainer from "../components/page/page-container";
+import StoreSection from "../components/store/store-section";
 import TourSeciton from "../components/tour/tour-section";
 import { getHeroDataForPage } from "../lib/hero-data";
 import { getMusicSectionData } from "../lib/music-section-data";
 import { getPageData } from "../lib/page-data";
+import { getShopifyStoreItems } from "../lib/shopify-store";
 import { getTourSectionData } from "../lib/tour-data";
 import { DataFetchResponse } from "../types/data-fetch.types";
 
@@ -57,6 +59,8 @@ const page = async () => {
     collectionName,
   });
 
+  const shopifyItems = await getShopifyStoreItems({ itemLimit: 9 });
+
   return (
     <PageContainer>
       <div className="flex flex-col flex-1 grow items-center">
@@ -70,10 +74,15 @@ const page = async () => {
           <HeroSection heroSection={heroData?.response?.[0]} />
         )}
 
-        {tourData?.success && <TourSeciton data={tourData?.response?.[0]} />}
         {musicSectionData?.success && (
           <MusicPlatformSection data={musicSectionData?.response} />
         )}
+
+        {shopifyItems?.success && (
+          <StoreSection items={shopifyItems?.response} />
+        )}
+
+        {tourData?.success && <TourSeciton data={tourData?.response?.[0]} />}
       </div>
       {pageData?.success && (
         <SideBar

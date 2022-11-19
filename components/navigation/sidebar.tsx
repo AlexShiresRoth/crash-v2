@@ -15,7 +15,7 @@ type Props = {
 
 const SideBar = ({ socialIcons }: Props) => {
   return (
-    <div className="min-h-screen  border-l-[1px] border-slate-500 ">
+    <div className="min-h-screen  border-l-[1px] border-slate-500/50 ">
       <div className="p-4 py-16 sticky top-0">
         <div className="flex flex-col gap-4">
           {socialIcons?.map((item) => {

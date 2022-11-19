@@ -6,9 +6,12 @@ type Props = {
 
 const H2 = ({ text }: Props) => {
   return (
-    <h2 className="uppercase text-white font-semibold text-4xl bg-black border-b-2 border-orange-500 pb-2">
-      {text}
-    </h2>
+    <div className="relative">
+      <h2 className="uppercase text-white font-semibold text-4xl bg-black p-2 ">
+        {text}
+      </h2>
+      <div className="h-6 bg-gradient-to-r from-red-500 to-orange-500 -mt-6"></div>
+    </div>
   );
 };
 
