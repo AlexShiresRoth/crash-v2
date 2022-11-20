@@ -7,9 +7,6 @@ type Props = {
   onChange: (variant: StoreItemType["variants"][0]['id']) => void;
 };
 
-//TODO create a checkout if there is none
-//tODO store checkout in local storage
-
 const ModalItemVariantSelect = ({ variants, onChange }: Props) => {
   return (
     <div className="flex flex-col">

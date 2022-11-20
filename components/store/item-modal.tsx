@@ -35,7 +35,8 @@ const ItemModal = ({
     const checkoutId = localStorage.getItem("checkoutId");
 
     //if no checkout id, create one
-    if(!checkoutId) {}
+    if (!checkoutId) {
+    }
     const checkoutLineItemsAdd = {
       variantId: selectedItem,
       quantity: 1,
@@ -44,7 +45,7 @@ const ItemModal = ({
     console.log(checkoutId);
   };
 
-  console.log("item selected", selectedItem);
+  console.log("desxription", description);
   return (
     <motion.div
       className="w-full h-full fixed top-0 left-0 z-50 flex items-center justify-center"
@@ -63,7 +64,7 @@ const ItemModal = ({
             ?.map((img) => ({ src: img?.src, altText: title }))
             .reverse()}
         />
-        <motion.div className="flex flex-col items-start gap-4">
+        <motion.div className="flex flex-col items-start gap-4 grow">
           <motion.div className="flex justify-between items-end w-full ">
             <motion.p className="text-slate-300 font-semibold text-lg">
               Price: ${price?.amount}
@@ -79,7 +80,7 @@ const ItemModal = ({
             {title}
           </motion.h2>
           <motion.p className="text-slate-300 text-xl">
-            {description ?? "No description provided"}
+            {description !== "" ? description : "No description provided"}
           </motion.p>
 
           <motion.div className="flex flex-col  gap-4 border-t-[1px] border-slate-500/30 w-full">
@@ -89,7 +90,10 @@ const ItemModal = ({
                 onChange={selectItem}
               />
 
-              <AddToCart />
+              <AddToCart
+                itemId={selectedItem ?? ""}
+                isDisabled={selectedItem ? false: true}
+              />
             </motion.div>
           </motion.div>
         </motion.div>
