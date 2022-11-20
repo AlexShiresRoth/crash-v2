@@ -46,21 +46,23 @@ const ImageSlider = ({
           </div>
         ))}
       </div>
-      <div className="w-full mt-4 flex justify-center gap-4">
-        {images?.map((_, index: number) => (
-          <span
-            key={index}
-            onClick={() => handleClickSlide(index)}
-            className={cn(
-              "w-2 h-2 rounded-full transition-all block hover:shadow-xl hover:bg-white hover:cursor-pointer hover:flex-[.06] transition-all",
-              {
-                "bg-white flex-[.06]": index === current,
-                "bg-gray-500/50 flex-[.04]": index !== current,
-              }
-            )}
-          ></span>
-        ))}
-      </div>
+      {images?.length > 1 && (
+        <div className="w-full mt-4 flex justify-center gap-4">
+          {images?.map((_, index: number) => (
+            <span
+              key={index}
+              onClick={() => handleClickSlide(index)}
+              className={cn(
+                "w-2 h-2 rounded-full transition-all block hover:shadow-xl hover:bg-white hover:cursor-pointer hover:flex-[.06] transition-all",
+                {
+                  "bg-white flex-[.06]": index === current,
+                  "bg-gray-500/50 flex-[.04]": index !== current,
+                }
+              )}
+            ></span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
