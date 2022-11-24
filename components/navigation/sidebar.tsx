@@ -21,7 +21,7 @@ const SideBar = ({ socialIcons }: Props) => {
           {socialIcons?.map((item) => {
             return (
               <div key={item?.sys?.id} className="text-slate-50">
-                <a href={item?.url} className="text-lg">
+                <a href={item?.url} className="text-lg hover:text-orange-500 transition-all">
                   {item?.icon === "twitter" && <SlSocialTwitter size={20} />}
                   {item?.icon === "instagram" && (
                     <AiOutlineInstagram size={20} />

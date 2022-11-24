@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import useSWR from "swr";
 import cn from "classnames";
 import axios from "axios";
 import { StoreItemType } from "../../types/shopify-store-types";

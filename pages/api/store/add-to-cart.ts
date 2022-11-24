@@ -15,10 +15,8 @@ export default async function handler(
       .addLineItems(checkoutId, itemsToAdd)
       .then((checkout) => checkout);
 
-    console.log("request lineItems", request?.lineItems);
-
     console.log("item added to checkout");
-    return res.status(200).json({ success: true, checkout: "checkout?.id" });
+    return res.status(200).json({ success: true, cart: request?.lineItems });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error });
