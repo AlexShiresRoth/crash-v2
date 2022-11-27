@@ -3,6 +3,8 @@ import React from "react";
 import cn from "classnames";
 import axios from "axios";
 import { StoreItemType } from "../../types/shopify-store-types";
+import { useAppDispatch } from "../../redux/redux-hooks";
+import { setCheckout } from "../../redux/store.reducer";
 
 type Props = {
   itemId: StoreItemType["variants"][0]["id"];
@@ -10,7 +12,12 @@ type Props = {
 };
 
 const AddToCart = ({ itemId, isDisabled }: Props) => {
-  const handleNewCheckout = async (): Promise<{ checkoutId: string }> => {
+  const dispatch = useAppDispatch();
+
+  const handleNewCheckout = async (): Promise<{
+    checkout: any;
+    success: boolean;
+  }> => {
     try {
       const request = await axios({
         method: "POST",
@@ -19,18 +26,17 @@ const AddToCart = ({ itemId, isDisabled }: Props) => {
 
       if (!request?.data?.success) throw new Error("Error creating checkout");
 
-      //set new checkout in local storage
-      localStorage.setItem("checkout", await request?.data?.checkout);
+      const checkout = await request.data?.checkout;
 
-      return { checkoutId: request?.data?.checkout };
+      return { checkout, success: true };
     } catch (error) {
-      return { checkoutId: "" };
+      return { checkout: null, success: false };
     }
   };
 
   const handleExistingCheckout = async (
     checkoutId: string
-  ): Promise<{ newCheckout: any; success: boolean }> => {
+  ): Promise<{ checkout: any; success: boolean }> => {
     try {
       const itemsToAdd = [
         {
@@ -52,13 +58,13 @@ const AddToCart = ({ itemId, isDisabled }: Props) => {
         throw new Error("Error adding to cart");
 
       return {
-        newCheckout: addToCartRequest?.data?.checkout,
+        checkout: addToCartRequest?.data?.checkout,
         success: true,
       };
     } catch (error) {
       console.error("Error adding to cart", error);
       return {
-        newCheckout: null,
+        checkout: null,
         success: false,
       };
     }
@@ -67,23 +73,31 @@ const AddToCart = ({ itemId, isDisabled }: Props) => {
   const handleAddToCart = async (): Promise<void> => {
     try {
       //cannot add item to checkout if no checkout exists
-      const checkoutId = localStorage.getItem("checkout");
+      const checkout = localStorage.getItem("checkout");
 
-      if (!checkoutId) {
+      if (!checkout) {
         //create a new checkout
-        const newCheckoutId = await handleNewCheckout();
+        const newCheckout = await handleNewCheckout();
 
-        if (!newCheckoutId?.checkoutId)
-          throw new Error("Error creating checkout");
+        if (!newCheckout?.checkout) throw new Error("Error creating checkout");
 
-        const addToCart = await handleExistingCheckout(
-          newCheckoutId?.checkoutId
-        );
+        const parseCheckout = JSON.parse(newCheckout.checkout);
+        //only pass checkout id to handleExistingCheckout
+        //returns a stringified checkout object
+        const addToCart = await handleExistingCheckout(parseCheckout.id);
+        //set the new checkout in redux store and local storage
+        dispatch(setCheckout(JSON.parse(addToCart.checkout)));
       } else {
+        const checkoutId = JSON.parse(checkout)?.id;
+
+        //returns a stringified checkout object
         const addToCart = await handleExistingCheckout(checkoutId);
+
+        //update the checkout in redux store and local storage
+        dispatch(setCheckout(JSON.parse(addToCart.checkout)));
       }
     } catch (error) {
-      console.error("Error", error);
+      console.error("Error adding to cart", error);
     }
   };
 

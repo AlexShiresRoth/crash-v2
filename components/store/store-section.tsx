@@ -4,12 +4,11 @@ import { StoreItemType } from "../../types/shopify-store-types";
 import { BsArrowRightShort } from "react-icons/bs";
 import H2 from "../headings/h2";
 import StoreItems from "./store-items";
-
+import ReduxProvider from "../redux-wrapper/redux-provider";
 
 type Props = {
   items: StoreItemType[];
 };
-
 
 const StoreSection = ({ items }: Props) => {
   return (
@@ -23,7 +22,9 @@ const StoreSection = ({ items }: Props) => {
           View All <BsArrowRightShort size={24} />
         </Link>
       </div>
-      <StoreItems items={items} />
+      <ReduxProvider>
+        <StoreItems items={items} />
+      </ReduxProvider>
     </div>
   );
 };

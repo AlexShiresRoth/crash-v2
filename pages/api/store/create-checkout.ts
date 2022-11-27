@@ -18,7 +18,9 @@ export default async function handler(
 
     if (!checkout) throw new Error("Could not create checkout");
 
-    return res.status(200).json({ success: true, checkout: checkout?.id });
+    return res
+      .status(200)
+      .json({ success: true, checkout: JSON.stringify(checkout) });
   } catch (error) {
     console.error("Error creating checkout", error);
     return res.status(500).json({ success: false, error });

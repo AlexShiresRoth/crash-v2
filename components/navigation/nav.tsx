@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { PageItem } from "../../types/page-item";
 import ImageWrapper from "../image/image-wrapper";
+import ReduxProvider from "../redux-wrapper/redux-provider";
 import Cart from "./cart";
 
 type Props = {
@@ -27,7 +28,9 @@ const Nav = ({ navigation, logo }: Props) => {
             </Link>
           ))}
         </div>
-        <Cart />
+        <ReduxProvider>
+          <Cart />
+        </ReduxProvider>
       </div>
     </nav>
   );

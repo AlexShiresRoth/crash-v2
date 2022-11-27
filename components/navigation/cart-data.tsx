@@ -1,34 +1,13 @@
-import axios from "axios";
+"use client";
+
 import React from "react";
-import useSWR from "swr";
 
 type Props = {
-  checkoutId: string;
+  itemsLength: number;
 };
 
-const fetcher = ({ url, args }: { url: string; args: any }) =>
-  axios({
-    url,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: args,
-  }).then((res) => res.data);
-
-const CartData = ({ checkoutId }: Props) => {
-  const { data, error } = useSWR(
-    {
-      url: "/api/store/retrieve-checkout",
-      args: { checkoutId },
-    },
-    fetcher
-  );
-
-  console.log("data", data);
-  return !error ? (
-    <span className="text-white">{data?.checkout?.lineItems?.length}</span>
-  ) : null;
+const CartData = ({ itemsLength }: Props) => {
+  return <span className="text-white">{itemsLength}</span>;
 };
 
 export default CartData;
