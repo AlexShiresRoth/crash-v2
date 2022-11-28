@@ -14,7 +14,7 @@ const CartItems = ({ lineItems }: Props) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute top-[10px] right-0 min-w-[350px]  bg-[#111000] shadow-lg rounded-lg flex flex-col gap-2 p-2"
+        className="absolute top-[10px] right-0 min-w-[350px] max-h-[500px] overflow-y-auto  bg-[#111000] shadow-lg rounded-lg flex flex-col gap-2 p-2"
       >
         {lineItems?.length > 0 &&
           lineItems?.map((item) => <CartItem cartItem={item} key={item?.id} />)}

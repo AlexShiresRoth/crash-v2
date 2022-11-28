@@ -31,10 +31,11 @@ const CartItem = ({ cartItem }: Props) => {
         <p className="text-orange-600 text-xs">
           ${cartItem?.variant?.price?.amount}
         </p>
+        <p className="text-slate-50 text-xs">Quantity: {cartItem?.quantity} </p>
       </div>
       <div className="flex gap-2">
         <button className="text-xs text-slate-50/50 hover:text-slate-50 transition-all rounded p-2">
-          <AiOutlineCloseCircle size={20}/>
+          <AiOutlineCloseCircle size={20} />
         </button>
       </div>
     </div>
