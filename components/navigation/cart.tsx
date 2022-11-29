@@ -61,11 +61,14 @@ const Cart = () => {
       {checkoutId && (
         <CartData itemsLength={checkoutState?.lineItems?.length ?? 0} />
       )}
-      {checkoutId && isHovering && (
-        <div className="relative flex flex-col">
-          <CartItems lineItems={checkoutState?.lineItems ?? []}/>
-        </div>
-      )}
+      {checkoutId &&
+        isHovering &&
+        checkoutState &&
+        checkoutState?.lineItems?.length > 0 && (
+          <div className="relative flex flex-col">
+            <CartItems lineItems={checkoutState?.lineItems ?? []} />
+          </div>
+        )}
     </div>
   );
 };

@@ -5,6 +5,8 @@ import axios from "axios";
 import { StoreItemType } from "../../types/shopify-store-types";
 import { useAppDispatch } from "../../redux/redux-hooks";
 import { setCheckout } from "../../redux/store.reducer";
+import LoadingSpinner from "../loader/loading-spinner";
+import classNames from "classnames";
 
 type Props = {
   itemId: StoreItemType["variants"][0]["id"];
@@ -132,28 +134,7 @@ const AddToCart = ({ itemId, isDisabled }: Props) => {
             "bg-orange-500 text-white min-w-1/4 p-2 rounded transition-all hover:bg-orange-800 flex gap-2 items-center justify-between"
           )}
         >
-          <svg
-            version="1.1"
-            id="svg-spinner"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            x="0px"
-            y="0px"
-            viewBox="0 0 80 80"
-            xmlSpace="preserve"
-            className="animate-spin w-6 h-6"
-          >
-            <path
-              id="spinner"
-              fill="transparent"
-              stroke="#eee"
-              strokeWidth={4}
-              d="M40,72C22.4,72,8,57.6,8,40C8,22.4, 
-    22.4,8,40,8c17.6,0,32,14.4,32,32c0,1.1–0.9,2–2,2 s-2–0.9–2–2c0–
-    15.4–12.6–28–28–28S12,24.6,12,40s12.6, 
-    28,28,28c1.1,0,2,0.9,2,2S41.1,72,40,72z"
-            ></path>
-          </svg>
+          <LoadingSpinner />
           Adding...
         </button>
       )}
