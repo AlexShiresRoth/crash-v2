@@ -7,7 +7,7 @@ import H2 from "../headings/h2";
 import ImageSlider from "../image-slider/image-slider";
 import AddToCart from "./add-to-cart";
 import ModalItemVariantSelect from "./modal-item-variant-select";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 type Props = {
   itemId: string;
@@ -28,24 +28,10 @@ const ItemModal = ({
   toggleModal,
   description,
 }: Props) => {
+
   const [selectedItem, selectItem] =
     useState<StoreItemType["variants"][0]["id"]>();
 
-  const handleAddToCart = async () => {
-    const checkoutId = localStorage.getItem("checkoutId");
-
-    //if no checkout id, create one
-    if (!checkoutId) {
-    }
-    const checkoutLineItemsAdd = {
-      variantId: selectedItem,
-      quantity: 1,
-    };
-
-    console.log(checkoutId);
-  };
-
-  console.log("desxription", description);
   return (
     <motion.div
       className="w-full h-full fixed top-0 left-0 z-50 flex items-center justify-center"
@@ -92,7 +78,8 @@ const ItemModal = ({
 
               <AddToCart
                 itemId={selectedItem ?? ""}
-                isDisabled={selectedItem ? false: true}
+                isDisabled={selectedItem ? false : true}
+                toggleModal={toggleModal}
               />
             </motion.div>
           </motion.div>

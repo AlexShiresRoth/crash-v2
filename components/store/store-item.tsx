@@ -22,7 +22,6 @@ const StoreItem = ({
   variants,
   description,
 }: Props) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   return (

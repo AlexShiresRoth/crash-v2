@@ -8,6 +8,7 @@ import axios from "axios";
 import CartItems from "./cart-items";
 
 const Cart = () => {
+
   const checkoutState = useAppSelector(selectCheckoutState);
 
   const [checkoutId, setCheckoutId] = useState<string | null>(null);
@@ -49,6 +50,11 @@ const Cart = () => {
     if (checkoutId) retrieveCheckout();
   }, [checkoutId, retrieveCheckout]);
 
+  useEffect(() => {
+    //show cart on new addition to cart
+    setIsHovering(true)
+  },[checkoutState?.lineItems])
+
   return (
     <div
       onMouseEnter={() => setIsHovering(true)}
@@ -65,7 +71,7 @@ const Cart = () => {
         isHovering &&
         checkoutState &&
         checkoutState?.lineItems?.length > 0 && (
-          <div className="relative flex flex-col">
+          <div className="relative flex flex-col ">
             <CartItems lineItems={checkoutState?.lineItems ?? []} />
           </div>
         )}

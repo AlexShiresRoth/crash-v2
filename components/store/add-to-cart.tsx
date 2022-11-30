@@ -1,19 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import cn from "classnames";
 import axios from "axios";
 import { StoreItemType } from "../../types/shopify-store-types";
 import { useAppDispatch } from "../../redux/redux-hooks";
 import { setCheckout } from "../../redux/store.reducer";
 import LoadingSpinner from "../loader/loading-spinner";
-import classNames from "classnames";
 
 type Props = {
   itemId: StoreItemType["variants"][0]["id"];
   isDisabled: boolean;
+  toggleModal: (val: string | null) => void;
 };
 
-const AddToCart = ({ itemId, isDisabled }: Props) => {
+const AddToCart = ({ itemId, isDisabled, toggleModal }: Props) => {
   const dispatch = useAppDispatch();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -93,7 +93,10 @@ const AddToCart = ({ itemId, isDisabled }: Props) => {
         const addToCart = await handleExistingCheckout(parseCheckout.id);
         //set the new checkout in redux store and local storage
         dispatch(setCheckout(JSON.parse(addToCart.checkout)));
+        //////////////////////
         setLoading(false);
+        ///close modal on success
+        toggleModal(null);
       } else {
         const checkoutId = JSON.parse(checkout)?.id;
 
@@ -102,7 +105,10 @@ const AddToCart = ({ itemId, isDisabled }: Props) => {
 
         //update the checkout in redux store and local storage
         dispatch(setCheckout(JSON.parse(addToCart.checkout)));
+        //////////////////////
         setLoading(false);
+        ////close modal on success
+        toggleModal(null);
       }
     } catch (error) {
       console.error("Error adding to cart", error);
